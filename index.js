@@ -1,10 +1,12 @@
 const numberOfRolls = 50;
 const numberOfSessions = 3;
 
-const playingOnPassline = false;
+const playingOnPassline = true;
 
 const minimumBet = 5;
 const sixAndEightBet = Math.round(1.2 * minimumBet);
+
+const oddsBet = 2 * minimumBet;
 
 let bankRollIterations = [];
 let bankRoll = 0;
@@ -41,6 +43,20 @@ function runSimulation() {
 
 		if (gameState.point === "off") {
 			switch (currentRoll) {
+				case 7:
+				case 11:
+					if (playingOnPassline) {
+						bankRoll += minimumBet;
+					}
+					break;
+				case 2:
+				case 3:
+				case 12:
+					if (playingOnPassline) {
+						bankRoll -= minimumBet;
+					}
+					break;
+
 				case 4:
 				case 5:
 				case 6:
@@ -53,37 +69,38 @@ function runSimulation() {
 					break;
 			}
 		} else {
-			switch (currentRoll) {
-				case 7:
-					gameState.point = "off";
-					// console.log("Point is off");
-					const totalLoss = Math.round(4.4 * minimumBet);
-					// console.log("totalLoss", totalLoss);
-					bankRoll -= totalLoss;
-					break;
-				case 5:
-					bankRoll += Math.round(1.4 * minimumBet);
-					bankRoll -= minimumBet;
-					break;
-				case 6:
-				case 8:
-					bankRoll += Math.round(1.166666667 * sixAndEightBet);
-					bankRoll -= minimumBet;
-					break;
-				case 3:
-				case 4:
-				case 9:
-				case 10:
-				case 11:
-					bankRoll += minimumBet;
-					break;
-				case 2:
-				case 12:
-					bankRoll += 2 * minimumBet;
-					break;
-			}
 			if (gameState.pointNumber === currentRoll) {
 				gameState.point = "off";
+			} else {
+				switch (currentRoll) {
+					case 7:
+						gameState.point = "off";
+						// console.log("Point is off");
+						const totalLoss = Math.round(4.4 * minimumBet);
+						// console.log("totalLoss", totalLoss);
+						bankRoll -= totalLoss;
+						break;
+					case 5:
+						bankRoll += Math.round(1.4 * minimumBet);
+						bankRoll -= minimumBet;
+						break;
+					case 6:
+					case 8:
+						bankRoll += Math.round(1.166666667 * sixAndEightBet);
+						bankRoll -= minimumBet;
+						break;
+					case 3:
+					case 4:
+					case 9:
+					case 10:
+					case 11:
+						bankRoll += minimumBet;
+						break;
+					case 2:
+					case 12:
+						bankRoll += 2 * minimumBet;
+						break;
+				}
 			}
 		}
 		// console.log("current bank roll", bankRoll);
