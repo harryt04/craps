@@ -113,8 +113,8 @@ const average = runSimulations()
 
 console.log(
   `Your average net win/loss after ${numberOfSessions} simulations of ${numberOfRolls} rolls is: ${average}, or a calculated house edge of ${round(
-    average / numberOfRolls
-  ) * -1}%`
+    average / numberOfRolls,
+  ) * -1}%`,
 )
 
 function round(x) {
