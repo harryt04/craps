@@ -1,4 +1,4 @@
-const numberOfRolls = 1000
+const numberOfRolls = 100
 const numberOfSessions = 100000
 
 const minimumBet = 5
@@ -8,18 +8,32 @@ const tableMax = 100 * minimumBet
 let bankRollIterations = []
 let bankRoll = 0
 
-const twoPaysTriple = false
-const twelvePaysTriple = false
+const rollHistory = {
+  2: 0,
+  3: 0,
+  4: 0,
+  5: 0,
+  6: 0,
+  7: 0,
+  8: 0,
+  9: 0,
+  10: 0,
+  11: 0,
+  12: 0,
+}
+
+const twoPaysTriple = true
+const twelvePaysTriple = true
 
 function rollDice() {
-  const dieOne = Math.floor(Math.random() * 6) + 1
-  const dieTwo = Math.floor(Math.random() * 6) + 1
+  const dieOne = Math.ceil(Math.random() * 6)
+  const dieTwo = Math.ceil(Math.random() * 6)
   return dieOne + dieTwo
 }
 
 function runSimulations() {
   for (let i = 0; i < numberOfSessions; i++) {
-    if (i % 1000 === 0) console.log(`Running Simulation number ${i}`)
+    // if (i % 1000 === 0) console.log(`Running Simulation number ${i}`)
     runSimulation()
   }
   let sum = 0
@@ -36,6 +50,7 @@ function runSimulation() {
 
   for (let i = 0; i < numberOfRolls; i++) {
     const currentRoll = rollDice()
+    rollHistory[currentRoll.toString()]++
 
     switch (currentRoll) {
       case 3:
@@ -77,6 +92,8 @@ console.log(
     average / numberOfRolls,
   ) * -1}%`,
 )
+
+console.log('rollHistory: ', rollHistory)
 
 function round(x) {
   return Math.round(x * 100) / 100
